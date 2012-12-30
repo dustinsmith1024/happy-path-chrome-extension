@@ -5,7 +5,13 @@ var last_event;
 
 function getSelector(el){
 	var $el = $(el);
-  	var selector = $el.parents()
+
+    var id = $el.attr("id");
+	if (id) { //"should" only be one of these if theres an ID
+		return "#" + id;
+	}
+  
+	var selector = $el.parents()
                     .map(function() { return this.tagName; })
                     .get().reverse().join(" ");
 
@@ -13,31 +19,23 @@ function getSelector(el){
 		selector += " "+ $el[0].nodeName;
 	}
 
-	var id = $el.attr("id");
-	if (id) {
-		selector += "#"+ id;
-	}
-
-	if (!id) { //If theres and ID there 'should' only be one on the page and we dont need all this
-		var classNames = $el.attr("class");
-		if (classNames) {
-			selector += "." + $.trim(classNames).replace(/\s/gi, ".");
-		}
-
-		var name = $el.attr('name');
-		if (name) {
-			selector += "[name='" + name + "']";
-		}
-		if (!name){
-			var index = $el.index();
-			console.log(index);
-			if (index) {
-				index = index + 1;
-				selector += ":nth-child(" + index + ")";
-			}
-		}
-	}
-return selector;
+    var classNames = $el.attr("class");
+    if (classNames) {
+      selector += "." + $.trim(classNames).replace(/\s/gi, ".");
+    }
+  
+    var name = $el.attr('name');
+    if (name) {
+      selector += "[name='" + name + "']";
+    }
+    if (!name){
+      var index = $el.index();
+      if (index) {
+        index = index + 1;
+        selector += ":nth-child(" + index + ")";
+      }
+    }
+  return selector;
 }
 
 if (localStorage['events']){
