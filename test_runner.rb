@@ -17,7 +17,7 @@ Capybara.run_server = false
 #If you switch google to headless it sends different pages...
 Capybara.current_driver = :webkit
 Capybara.javascript_driver = :webkit
-Capybara.app_host = 'http://smith1024.com/'
+#Capybara.app_host = 'http://smith1024.com/'
 
 # Load the tests from command line?
 
@@ -28,6 +28,7 @@ class JSONTests < Test::Unit::TestCase
 		# Define methods for the test
 		# Must start with _test for testRunner to pick em up
   	define_method "test_#{t.test_name}" do
+  		Capybara.app_host = t.url
   		puts t.explanation
   		puts t.test_name
 			  t.steps.each do |step|
@@ -38,15 +39,16 @@ class JSONTests < Test::Unit::TestCase
         		fill_in step.what, :with => step.with
         	end
         	if step.action == 'click'
-        		click_on(step.what)
+        		find(step.what).click()
+        		#click_on(step.what)
         	end
         	if step.action == 'check'
             assert(page.has_content?(step.what))
         	end
           if step.action == 'screenshot'
           	info = screenshot_and_save_page
-          	#puts info[:image]
-            #screenshot_and_open_image
+          	puts info[:image]
+            screenshot_and_open_image
           end
           if step.action == 'resize'
             page.driver.resize_window(step.x, step.y)

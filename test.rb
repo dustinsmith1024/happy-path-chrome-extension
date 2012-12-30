@@ -1,9 +1,10 @@
 class SmokeTest
-  attr_reader :name, :steps, :description
+  attr_reader :name, :steps, :description, :url
 
   def initialize(args={})
     @name = args[:name]
     @steps = args[:steps]
+    @url = args[:url]
     @description = args.fetch(:description, nil)
   end
 

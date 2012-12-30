@@ -16,11 +16,22 @@ require 'json'
 
 get '/' do
   '<html>
+  <head><script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script></head>
 	<body>
 	<p>Sup yall</p>
 	<input name="input-name" />
 	<textarea name="text-name">Pre</textarea>
-
+	<ul id="list">
+	<li>one</li>
+	<li>two</li>
+	<li>three</li>
+	<li>four</li>
+	</ul>
+	<div>1st div</div>
+	<div> 2nd div</div>
+	<div id="three-div"> 3rd div</div>
+	<div class="fourth">4th div</div>
 	</body>
 
 	</html>'

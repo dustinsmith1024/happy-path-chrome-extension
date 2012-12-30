@@ -10,7 +10,8 @@ module JsonTestFactory
 		test_class.new(
 			name: json['name'],
 			steps: StepsFactory.build(json['steps']),
-			description: json['description']
+			description: json['description'],
+			url: json['url']
 		)
 	end
 

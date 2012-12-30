@@ -26,7 +26,7 @@
 
   </head>
   <body>
-    <h1>Enter test info</h1>
+    <h2>Enter test info</h2>
     <form id="save-test" name="save-test" method="POST" action="http://localhost:4567/test/new">
       <label>Test name: <input name="name" type="text" /></label>
       <label>Description: 
@@ -34,9 +34,13 @@
       <label>URL: <input name="url" type="text" /></label>
       <input type="submit" value="Submit" />
     </form>
+    <h2>Run Test</h2>
     <form id="run-test" name="run-test" method="POST" action="http://localhost:4567/test/run/one">
-      <input name="test-name" type="text" />
+      <label>Test name: <input name="test-name" type="text" /></label>
       <input type="submit" value="Submit" />
     </form>
+    <h2>Events</h2>
+    <a href="http://localhost:4567/test/clear" id="clear-test">Clear test</a>
+    <ol id="events-list"></ol>
   </body>
 </html>

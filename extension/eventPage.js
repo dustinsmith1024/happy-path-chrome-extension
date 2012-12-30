@@ -22,6 +22,21 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 		sendResponse({status: 'saved'});
 });
 
+function clearContentLocalStorage(){
+	var message = {method: 'clearLocalStorage'};
+	/*chrome.extension.sendMessage(message, function(response) {
+		console.log('Callback:', response);
+		
+	});*/
+	chrome.tabs.getSelected(null, function(tab) {
+		console.log('Sending from ' + tab.id);
+		chrome.tabs.sendMessage(tab.id, message, function(response) {
+			console.log(response.status);
+			localStorage.removeItem('events');
+		});
+	});
+}
+
 /*chrome.extension.onMessage.addListener(
   function(request, sender, sendResponse) {
     console.log(sender.tab ?

@@ -47,6 +47,7 @@ $(document).on('submit', '#run-test', function(e) {
   });
 });
 
+/*
 chrome.tabs.getSelected(null, function(tab) {
   console.log('Sending from ' + tab.id);
   chrome.tabs.sendMessage(tab.id, {greeting: "hello"}, function(response) {
@@ -60,17 +61,38 @@ chrome.tabs.getSelected(null, function(tab) {
     console.log(response.data);
   });
 });
+*/
+
+$(document).on('click', '#clear-test', function(e) {
+  e.preventDefault();
+  var bkg = chrome.extension.getBackgroundPage();
+  bkg.clearContentLocalStorage(function(result) {
+    console.log(result);
+    refreshEvents();
+    fetchEvents();
+  });
+});
 
 $(function(){
+  fetchEvents();
+});
+
+function refreshEvents(){
+  $("#events-list").html('');
+  fetchEvents();
+}
+
+function fetchEvents(){
   // Not really sure if the ready wrapper is needed
   var events = JSON.parse(localStorage['events']);
-  var $ul = $("<ul/>");
+  var html = '';
   $.each(events, function(e){
-    var text = e + " " + this.event + " " + this.on;
-    $ul.append($("<li/>").text(text));
+    var text = this.event + " " + this.on + " " + this.input_value;
+    html += "<li>" + text + "</li>";
   });
-  $("body").append($ul);
-});
+  $("#events-list").append(html); //Build html then append
+}
+
 
 
 /*
