@@ -15,6 +15,7 @@ $(document).on("click focus blur keypress", function(e){
 $(document).on("click", function(e){
 	//Return the name or ID or
 	//console.log('Clicked', e.target.name);
+	/* NEED TO MAKE THIS PULL DOWN A SELECTOR ALWAYS*/
 	$(this).trigger("watcher", {"event": "click", "on": e.target.name});
 });
 

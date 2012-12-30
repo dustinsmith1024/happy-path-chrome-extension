@@ -15,6 +15,9 @@
         width:75px;
         height:75px;
       }
+      label {
+        display: block;
+      }
     </style>
 
     <!-- JavaScript and HTML must be in separate files for security. -->
@@ -23,11 +26,12 @@
 
   </head>
   <body>
-    Sup<p id="sup"><a href="http://localhost:8000">hi</a></p>
+    <h1>Enter test info</h1>
     <form id="save-test" name="save-test" method="POST" action="http://localhost:4567/test/new">
-      <input name="name" type="text" />
-      <input name="description" type="text" />
-      <input name="url" type="text" />
+      <label>Test name: <input name="name" type="text" /></label>
+      <label>Description: 
+      <input name="description" type="text" /></label>
+      <label>URL: <input name="url" type="text" /></label>
       <input type="submit" value="Submit" />
     </form>
     <form id="run-test" name="run-test" method="POST" action="http://localhost:4567/test/run/one">

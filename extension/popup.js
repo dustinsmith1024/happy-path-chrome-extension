@@ -6,7 +6,7 @@ and backgrounds.
 */
 
 function GUID ()
-{
+{ /* Found on stackoverflow */
     var S4 = function ()
     {
         return Math.floor(
@@ -23,25 +23,7 @@ function GUID ()
         );
 }
 
-
-$(function(){
-  var events = JSON.parse(localStorage['events']);
-  var $ul = $("<ul/>");
-  $.each(events, function(e){
-    var text = e + " " + this.event + " " + this.on;
-    $ul.append($("<li/>").text(text));
-  });
-  $("body").append($ul);
-});
-
-$(document).on('click', 'a', function(e){
-  e.preventDefault();
-  $.get('http://localhost:8000/index.html', function(d){
-    console.log('did it', d);
-  });
-});
-
-$(document).on('submit', 'form#save-test', function(e) {
+$(document).on('submit', '#save-test', function(e) {
   e.preventDefault();
   var name = $(this).find("[name='name']").val();
   var description = $(this).find("[name='description']").val();
@@ -57,30 +39,14 @@ $(document).on('submit', 'form#save-test', function(e) {
   });
 });
 
-$(document).on('submit', 'form#run-test', function(e) {
+$(document).on('submit', '#run-test', function(e) {
   e.preventDefault();
   var name = $(this).find("[name='test-name']").val();
   $.post('http://localhost:4567/test/run/' + name, localStorage['events'], function(data){
     $("body").html(data);
   });
 });
-//console.log(Date.now());
 
-/*
-chrome.tabs.getCurrent(function(tab){
-  console.log(tab);
-});
-
-var active;
-chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
-  //console.log(tabs);
-  active = tabs[0].id;
-  console.log('Active tab: ', active);
-});
-
-
-
-*/
 chrome.tabs.getSelected(null, function(tab) {
   console.log('Sending from ' + tab.id);
   chrome.tabs.sendMessage(tab.id, {greeting: "hello"}, function(response) {
@@ -95,4 +61,36 @@ chrome.tabs.getSelected(null, function(tab) {
   });
 });
 
+$(function(){
+  // Not really sure if the ready wrapper is needed
+  var events = JSON.parse(localStorage['events']);
+  var $ul = $("<ul/>");
+  $.each(events, function(e){
+    var text = e + " " + this.event + " " + this.on;
+    $ul.append($("<li/>").text(text));
+  });
+  $("body").append($ul);
+});
 
+
+/*
+console.log(Date.now());
+chrome.tabs.getCurrent(function(tab){
+  console.log(tab);
+});
+
+var active;
+chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+  //console.log(tabs);
+  active = tabs[0].id;
+  console.log('Active tab: ', active);
+});
+
+$(document).on('click', 'a', function(e){
+  e.preventDefault();
+  $.get('http://localhost:8000/index.html', function(d){
+    console.log('did it', d);
+  });
+});
+
+*/

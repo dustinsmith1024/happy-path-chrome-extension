@@ -54,17 +54,15 @@ post '/test/new' do
   	params[:steps].each_with_index do |step, index|
   		puts step[1]
   		json += '{"action": "' + step[1]['event'] + '",'
+  		# might not want this
+  		json += '"what": "' + step[1].fetch('on', 'body') + '"}'
   		
-  		if index == params[:steps].size - 1
-  			# We might not want this default fetch
-  			json += '"what": "' + step[1].fetch('on', '') + '"}'
-  		else
-			json += '"what": "' + step[1].fetch('on', '') + '"},'
+  		if index != params[:steps].size - 1
+  			json += ','
   		end
   		
   	end
-  	json += ']}'
-
+  	json += ']}' # close off the json
   	File.open(folder() + "test_#{guid}.json", 'w') { |file| file.write(json) }
   	puts json
   	json
@@ -90,5 +88,6 @@ post '/test/run/:name' do
 end
 
 def folder
+	# just a placeholder till we do programatically
 	"/Users/dustinsmith/Development/smokeit/tests/"
 end
