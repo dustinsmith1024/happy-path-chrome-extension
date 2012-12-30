@@ -1,0 +1,19 @@
+{
+	"name": "smith1024.com 2",
+	"url": "http://smith1024.com",
+	"description": "testing my sit yo",
+	"steps": [
+		{
+			"action":"visit",
+			"what":"/"
+		},
+		{
+			"action": "click",
+			"what": "Pictures"
+		},
+		{
+			"action": "check",
+			"what": "Flickr"
+		}
+	]
+}

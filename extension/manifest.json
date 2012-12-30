@@ -1,0 +1,25 @@
+{
+  "name": "The watcher",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "The watcher which will record your tests.",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "http://*/",
+    "tabs",
+    "file:///*"
+  ],
+  "background": {
+    "scripts": ["eventPage.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["jquery.js", "watcher.js"]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+	"name": "smith resize 2",
+	"url": "http://smith1024.com",
+	"description": "testing my site yo",
+	"steps": [
+		{
+			"action":"visit",
+			"what":"/"
+		},
+		{
+			"action": "click",
+			"what": "mini"
+		},
+		{
+			"action": "check",
+			"what": "Article List by Category"
+		},
+		{
+			"action": "resize",
+			"x": "600",
+			"y": "100"
+		},
+		{
+			"action": "screenshot",
+			"what": "page"
+		}
+	]
+}

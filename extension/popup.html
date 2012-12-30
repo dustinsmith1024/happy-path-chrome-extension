@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        min-width:357px;
+        overflow-x:hidden;
+      }
+
+      img {
+        margin:5px;
+        border:2px solid black;
+        vertical-align:middle;
+        width:75px;
+        height:75px;
+      }
+    </style>
+
+    <!-- JavaScript and HTML must be in separate files for security. -->
+    <script src="jquery.js"></script>
+    <script src="popup.js"></script>
+
+  </head>
+  <body>
+    Sup<p id="sup"><a href="http://localhost:8000">hi</a></p>
+    <form id="save-test" name="save-test" method="POST" action="http://localhost:4567/test/new">
+      <input name="name" type="text" />
+      <input name="description" type="text" />
+      <input name="url" type="text" />
+      <input type="submit" value="Submit" />
+    </form>
+    <form id="run-test" name="run-test" method="POST" action="http://localhost:4567/test/run/one">
+      <input name="test-name" type="text" />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
