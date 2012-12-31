@@ -14,6 +14,10 @@ require 'json'
 #require '/Users/dustinsmith/Development/smokeit/json_test_factory.rb'
 #require 'capybara-screenshot'
 
+get '/hi' do
+	'<html><body>hiiii</body></html>'
+end
+
 get '/' do
   '<html>
   <head><script src="http://code.jquery.com/jquery-latest.min.js"

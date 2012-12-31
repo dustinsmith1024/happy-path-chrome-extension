@@ -95,6 +95,12 @@ $(document).on("watcher", function(e, message){
 	});
 });
 
+$(document).on('ready', function(e){
+	var path = window.location.pathname;
+	$(this).trigger("watcher", {"event":"visit",
+								"on": path });
+});
+
 /*chrome.extension.sendMessage({greeting: "hello"}, function(response) {
   console.log(response.farewell);
 });

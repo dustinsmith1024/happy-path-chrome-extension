@@ -47,8 +47,8 @@ class JSONTests < Test::Unit::TestCase
         	end
           if step.action == 'screenshot'
           	info = screenshot_and_save_page
-          	puts info[:image]
-            screenshot_and_open_image
+          	#puts info[:image]
+            #screenshot_and_open_image
           end
           if step.action == 'resize'
             page.driver.resize_window(step.x, step.y)
