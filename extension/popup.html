@@ -28,10 +28,10 @@
   <body>
     <h2>Enter test info</h2>
     <form id="save-test" name="save-test" method="POST" action="http://localhost:4567/test/new">
-      <label>Test name: <input name="name" type="text" /></label>
+      <label>Test name: <input name="name" id="name" type="text" /></label>
       <label>Description: 
-      <input name="description" type="text" /></label>
-      <label>URL: <input name="url" type="text" /></label>
+      <input name="description" id="description" type="text" /></label>
+      <label>URL: <input name="url" id="url" type="text" /></label>
       <input type="submit" value="Submit" />
     </form>
     <h2>Run Test</h2>

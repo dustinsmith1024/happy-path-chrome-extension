@@ -5,6 +5,8 @@ There is a shared localStorage between this file
 and backgrounds.
 */
 
+var current_test = "";
+
 function GUID ()
 { /* Found on stackoverflow */
     var S4 = function ()
@@ -75,7 +77,41 @@ $(document).on('click', '#clear-test', function(e) {
 
 $(function(){
   fetchEvents();
+  chrome.tabs.getSelected(null, function(tab) {
+    syncTestForm(fetchCurrentTest(tab));
+  });
 });
+
+function fetchCurrentTest(tab){
+  if (localStorage['current_test']) {
+    return JSON.parse(localStorage['current_test']);
+  } else {
+    return {"name": "Example Test",
+            "description": "Short description of the test.",
+            "url": tab.url};
+  }
+}
+
+function syncTestForm(test){
+  $("#url").val(test.url);
+  $("#name").val(test.name);
+  $("#description").val(test.description);
+}
+
+$(document).on("change", "#save-test input", function(e){
+  //if the input changes save it localStorage
+  var test = {"name": $("#name").val(),
+              "description": $("#description").val(),
+              "url": $("#url").val()};
+  localStorage['current_test'] = JSON.stringify(test);
+});
+
+function getCurrentUrl(){
+  //Couldnt get this cause its asyncing so not really used now
+  var tab = chrome.tabs.getSelected(null, function(tab) {
+    return tab.url;
+  });
+}
 
 function refreshEvents(){
   $("#events-list").html('');
