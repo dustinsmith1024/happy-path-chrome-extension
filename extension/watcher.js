@@ -1,5 +1,4 @@
 var DEBUG = 1;
-
 var events = [];
 var last_event;
 
@@ -42,42 +41,92 @@ if (localStorage['events']){
 	var events = JSON.parse(localStorage['events']);
 }
 
-$(document).on("click focus blur keyup", function(e){
-	if (DEBUG){
-		console.log('EVENT', e);
+function initEvents(){
+	$(document).on("click focus blur keyup", function(e){
+		if (DEBUG){
+			console.log('EVENT', e);
+		}
+	});
+
+	/*$(document).on("click", function(e){
+		//Return the name or ID or
+		//console.log('Clicked', e.target.name);
+		var selector = getSelector(e.target);
+		watcher({"event": "click", "on": selector});
+	});*/
+
+	//Need to trap focus before clicks or they will double fire
+	$(document).on("focus", "input", function(e){
+		var selector = getSelector(e.target);
+		watcher({"event":"focus", "on": selector});
+	});
+
+	$(document).on("keyup", "input, textarea", function(e){
+		var selector = getSelector(e.target);
+		watcher({"event":"keyup",
+				"on": selector,
+				"input_value": e.target.value});
+	});
+
+	$(document).on("mouseup", function(e){
+		var selection = getSelectedText();
+		var selector = getSelector(e.target);
+		if (selection){
+			watcher({"event":"check",
+					"on": selection,
+					"input_value": selection});
+		} else {
+			//Just a click event
+			watcher({"event": "click", "on": selector});
+		}
+	});
+
+	/* Might need to init this one a different way*/
+	$(document).on('ready', function(e){
+		var path = window.location.pathname;
+		watcher({"event":"visit",
+				"on": path });
+	});
+}
+
+function disableEvents(){
+	$(document).off("click");
+	$(document).off("focus", "input");
+	$(document).off("keyup", "input, textarea");
+	$(document).off('ready');
+}
+
+function getSelectedText() {
+    return window.getSelection().toString();
+}
+
+function watcher(message){
+	/* Send an object with
+		event:
+		on:
+		input_value:
+	*/
+	last_event = message; // Need to track typing events
+	if (message.event == "keyup" && message.on == last_event.on) {
+		//This is a 'typing' event and we just need to capture what is typed in the box
+		// not each individual type
+		events.pop();
 	}
-});
+	events.push(message);
+	localStorage['events'] = JSON.stringify(events);
+	chrome.extension.sendMessage(message, function(response) {
+		console.log('Callback:', response);
+	});
+	var local = localStorage.getItem('events');
+	//Maybe should be updateLocalStorage
+	chrome.extension.sendMessage({method: 'setLocalStorage', data: local}, function(response) {
+		console.log('Callback:', response);
+	});
+}
 
-$(document).on("click", function(e){
-	//Return the name or ID or
-	//console.log('Clicked', e.target.name);
-	/* NEED TO MAKE THIS PULL DOWN A SELECTOR ALWAYS*/
-	var selector = getSelector(e.target);
-	//console.log('Selector', selector);
-	$(this).trigger("watcher", {"event": "click", "on": selector});
-});
-
-//Need to trap focus befor clicks or they will double fire
-$(document).on("focus", "input", function(e){
-	//console.log('Focused on ', e.target.name);
-	var selector = getSelector(e.target);
-	$(this).trigger("watcher", {"event":"focus", "on": selector});
-});
-
-$(document).on("keyup", "input, textarea", function(e){
-	//console.log('Pressed some keys', e.target.name, e.target.value);
-	var selector = getSelector(e.target);
-	$(this).trigger("watcher", {"event":"keyup",
-								"on": selector,
-								"input_value": e.target.value});
-});
-
+/*
 $(document).on("watcher", function(e, message){
 	console.log('watcher triggered', message);
-	/*$.get('http://localhost:8000/', function(){
-		console.log('did it');
-	});
-	*/
 	last_event = message; // Need to track typing events
 	if (message.event == "keyup" && message.on == last_event.on) {
 		//This is a 'typing' event and we just need to capture what is typed in the box
@@ -94,12 +143,7 @@ $(document).on("watcher", function(e, message){
 		console.log('Callback:', response);
 	});
 });
-
-$(document).on('ready', function(e){
-	var path = window.location.pathname;
-	$(this).trigger("watcher", {"event":"visit",
-								"on": path });
-});
+*/
 
 /*chrome.extension.sendMessage({greeting: "hello"}, function(response) {
   console.log(response.farewell);
@@ -109,12 +153,28 @@ $(document).on('ready', function(e){
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     console.log('message');
     if (request.method == "clearLocalStorage"){
-
-		//localStorage.setItem('events', events.push({"click": e.target.name}));
 		console.log('clearing locally', request);
 		localStorage.removeItem('events');
 		events = [];
 		sendResponse({status: 'cleared'});
+	}
+});
+
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log('enable events');
+    if (request.method == "enableEvents"){
+		console.log('enabling events', request);
+		initEvents();
+		sendResponse({status: 'initialized'});
+	}
+});
+
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    console.log('message');
+    if (request.method == "disableEvents"){
+		console.log('disabling events', request);
+		disableEvents();
+		sendResponse({status: 'initialized'});
 	}
 });
 

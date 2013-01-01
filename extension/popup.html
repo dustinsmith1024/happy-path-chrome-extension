@@ -26,6 +26,10 @@
 
   </head>
   <body>
+    <form id="events-toggle">
+      <label><input type="radio" id="enable-events" name="events" value="enabled" />Enabled</label>
+      <label><input type="radio" id="disable-events" name="events" value="disabled" />Disabled</label>
+  </form>
     <h2>Enter test info</h2>
     <form id="save-test" name="save-test" method="POST" action="http://localhost:4567/test/new">
       <label>Test name: <input name="name" id="name" type="text" /></label>

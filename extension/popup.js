@@ -75,11 +75,40 @@ $(document).on('click', '#clear-test', function(e) {
   });
 });
 
-$(function(){
-  fetchEvents();
-  chrome.tabs.getSelected(null, function(tab) {
-    syncTestForm(fetchCurrentTest(tab));
+$(document).on('click', '#enable-events', function(e) {
+  var bkg = chrome.extension.getBackgroundPage();
+  bkg.enableEvents(function(result) {
+    console.log('Enable events', result);
+    localStorage['events_enabled'] = 'on';
+    refreshEvents();
+    fetchEvents();
   });
+});
+
+
+$(document).on('click', '#disable-events', function(e) {
+  var bkg = chrome.extension.getBackgroundPage();
+  bkg.disableEvents(function(result) {
+    console.log('Disable events', result);
+    localStorage['events_enabled'] = 'off';
+    refreshEvents();
+    fetchEvents();
+  });
+});
+
+$(function(){
+  if (localStorage['events_enabled'] === 'on') {
+    $("#enable-events").click();
+  } else {
+    $("#disable-events").click();
+  }
+
+    //fetchEvents();
+    chrome.tabs.getSelected(null, function(tab) {
+      syncTestForm(fetchCurrentTest(tab));
+    });
+    
+  //}
 });
 
 function fetchCurrentTest(tab){
@@ -126,7 +155,7 @@ function fetchEvents(){
     var text = this.event + " " + this.on + " " + this.input_value;
     html += "<li>" + text + "</li>";
   });
-  $("#events-list").append(html); //Build html then append
+  $("#events-list").html('').append(html); //Build html then append
 }
 
 

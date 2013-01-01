@@ -39,10 +39,14 @@ class JSONTests < Test::Unit::TestCase
         		fill_in step.what, :with => step.with
         	end
         	if step.action == 'click'
-        		find(step.what).click()
-        		#click_on(step.what)
+        		#find(step.what).click()
+        		click_on(step.what)
         	end
         	if step.action == 'check'
+        		#Might need to scope this
+        		#within("li#employee") do
+  					#	fill_in 'Name', :with => 'Jimmy'
+						#end
             assert(page.has_content?(step.what))
         	end
           if step.action == 'screenshot'
