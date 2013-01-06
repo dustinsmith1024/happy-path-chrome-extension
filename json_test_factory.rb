@@ -4,6 +4,7 @@ require 'json'
 require '/Users/dustinsmith/Development/smokeit/test.rb'
 
 module JsonTestFactory
+	
 	def self.build(json_file_path, test_class=SmokeTest)
 		json = File.read(json_file_path)
 		json = JSON.parse(json)

@@ -74,7 +74,7 @@ function initEvents(){
 		if (selection){
 			watcher({"event":"check",
 					"on": selection,
-					"input_value": selection});
+					"with": selection});
 		} else {
 			//Just a click event
 			watcher({"event": "click", "on": selector});

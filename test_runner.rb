@@ -44,10 +44,10 @@ class JSONTests < Test::Unit::TestCase
         	end
         	if step.action == 'check'
         		#Might need to scope this
-        		#within("li#employee") do
+        		within(step.what) do
   					#	fill_in 'Name', :with => 'Jimmy'
-						#end
-            assert(page.has_content?(step.what))
+            	assert(has_content?(step.with))
+            end
         	end
           if step.action == 'screenshot'
           	info = screenshot_and_save_page

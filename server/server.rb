@@ -11,8 +11,18 @@ require "capybara-webkit"
 require "launchy"
 #gem 'json'
 require 'json'
+require 'resque'
+require '/Users/dustinsmith/Development/smokeit/run_class.rb'
 #require '/Users/dustinsmith/Development/smokeit/json_test_factory.rb'
 #require 'capybara-screenshot'
+
+post '/test/run/:name' do
+	Resque.enqueue(Tester, params[:name])
+end
+
+get '/test/run/:name' do
+	Resque.enqueue(Tester, params[:name])
+end
 
 get '/hi' do
 	'<html><body>hiiii</body></html>'

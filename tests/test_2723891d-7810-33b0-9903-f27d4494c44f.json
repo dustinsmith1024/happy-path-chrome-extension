@@ -1,1 +1,9 @@
-{"name": "sample2","guid": "2723891d-7810-33b0-9903-f27d4494c44f","url": "http://localhost:4567","description": "test a","steps": [{"action": "visit","what":"/"},{"action": "visit","what": "/"},{"action": "focus","what": "HTML BODY INPUT[name='input-name']"},{"action": "keyup","what": "HTML BODY INPUT[name='input-name']"},{"action": "click","what": "HTML BODY DIV:nth-child(6)"}]}
+{"name": "sample2",
+"guid": "2723891d-7810-33b0-9903-f27d4494c44f",
+"url": "http://localhost:4567",
+"description": "test a",
+"steps": [
+	{"action": "visit","what":"/"},
+	{"action": "fill_in","what": "input-name", "with": "tester"},
+	{"action": "screenshot", "what": "page"}
+	]}

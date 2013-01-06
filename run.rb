@@ -9,7 +9,7 @@ require '/Users/dustinsmith/Development/smokeit/my_test_runner.rb'
 require '/Users/dustinsmith/Development/smokeit/test_runner.rb'
 #create a new empty TestSuite, giving it a name
 my_tests = Test::Unit::TestSuite.new("My Special Tests")
-my_tests << JSONTests.new('test_smith1024com')#calls MyTest#test_1
+my_tests << JSONTests.new('test_sample2')#calls MyTest#test_1
 #my_tests << JSONTests.new('test_smith1024com')#calls MyTest#test_1
 #run the suite
 #my_tests.run(nil)
