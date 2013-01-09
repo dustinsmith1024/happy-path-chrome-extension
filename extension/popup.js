@@ -34,11 +34,21 @@ $(document).on('submit', '#save-test', function(e) {
               "name": name,
               "url": url,
               "description": description,
-              "steps": JSON.parse(localStorage['events'])
+              "steps_attributes": JSON.parse(localStorage['events'])
             };
-  $.post('http://localhost:4567/test/new', test, function(data){
-    $("body").html(data);
+  $.ajax({
+    type: 'POST',
+    url: 'http://localhost:3000/scenarios',
+    contentType: 'application/json',
+    dataType: 'json',
+    data: JSON.stringify(test),
+    success: function(data) {
+      $("body").html(data);
+    }
   });
+  /*$.post('http://localhost:3000/scenarios', test, function(data){
+    $("body").html(data);
+  });*/
 });
 
 $(document).on('submit', '#run-test', function(e) {

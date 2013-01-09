@@ -58,34 +58,34 @@ function initEvents(){
 	//Need to trap focus before clicks or they will double fire
 	$(document).on("focus", "input", function(e){
 		var selector = getSelector(e.target);
-		watcher({"event":"focus", "on": selector});
+		watcher({"action": "focus", "what": selector});
 	});
 
 	$(document).on("keyup", "input, textarea", function(e){
 		var selector = getSelector(e.target);
-		watcher({"event":"keyup",
-				"on": selector,
-				"input_value": e.target.value});
+		watcher({"action":"keyup",
+				"what": selector,
+				"with": e.target.value});
 	});
 
 	$(document).on("mouseup", function(e){
 		var selection = getSelectedText();
 		var selector = getSelector(e.target);
 		if (selection){
-			watcher({"event":"check",
-					"on": selection,
+			watcher({"action":"check",
+					"what": selection,
 					"with": selection});
 		} else {
 			//Just a click event
-			watcher({"event": "click", "on": selector});
+			watcher({"action": "click", "what": selector});
 		}
 	});
 
 	/* Might need to init this one a different way*/
 	$(document).on('ready', function(e){
 		var path = window.location.pathname;
-		watcher({"event":"visit",
-				"on": path });
+		watcher({"action":"visit",
+				"what": path });
 	});
 }
 
@@ -107,7 +107,7 @@ function watcher(message){
 		input_value:
 	*/
 	last_event = message; // Need to track typing events
-	if (message.event == "keyup" && message.on == last_event.on) {
+	if (message.action == "keyup" && message.what == last_event.what) {
 		//This is a 'typing' event and we just need to capture what is typed in the box
 		// not each individual type
 		events.pop();
